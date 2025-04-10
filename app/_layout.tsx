@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import { useRouter, useSegments } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -50,7 +50,7 @@ export default function RootLayout() {
 
   return (
     <PaperProvider>
-      <Home />
+      <Stack />
     </PaperProvider >
   );
 }
