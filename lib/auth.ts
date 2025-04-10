@@ -11,6 +11,7 @@ export function useAuth() {
         const getSession = async () => {
             const { data } = await supabase.auth.getSession();
             setSession(data.session);
+            setLoading(false);
         }
         getSession();
 
@@ -24,5 +25,5 @@ export function useAuth() {
         };
     }, []);// Empty array means this effect runs only on mount/unmount
     
-    
+    return {session, loading} //These variables will be made available to hooked component
 }
