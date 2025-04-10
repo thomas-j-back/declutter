@@ -45,7 +45,9 @@
       },
       "eas": {
         "projectId": "81a03410-c4ff-4725-abc5-a3b20d64aaeb"
-      }
+      },
+      "EXPO_PUBLIC_SUPABASE_URL": "https://czrkkvhxhukuqcviegor.supabase.co",
+      "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cmtrdmh4aHVrdXFjdmllZ29yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQyNDI5NjAsImV4cCI6MjA1OTgxODk2MH0.mjjl-UTEd6_twIm3DYej8yvZfqDilfM60cr0570dVaw"
     }
   }
 }
