@@ -12,7 +12,9 @@ const AuthContext = createContext<{
 
 export function useSession() {
     const value = useContext(AuthContext);
-
+    if (!value) {
+        throw new Error('useSession must be used within a SessionProvider');
+    }
 
     return value;
 }
@@ -45,6 +47,8 @@ export function useAuth() {
 
 export function SessionProvider({ children }: PropsWithChildren) {
     const { session, loading } = useAuth();
+    //This uses our getAuth hook to get session,
+    //and wraps thsi in our root component
     return (
         <AuthContext.Provider
             value={{ session, loading }}>

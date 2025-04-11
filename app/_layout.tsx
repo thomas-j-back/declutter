@@ -3,12 +3,17 @@ import { Slot, Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { PaperProvider } from 'react-native-paper';
+import { DefaultTheme, PaperProvider } from 'react-native-paper';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Session } from '@supabase/supabase-js';
 import { SessionProvider } from '@/lib/auth';
+import { LightTheme } from '@/components/ui/LightTheme';
+import { DarkTheme } from '@/components/ui/DarkTheme';
 
-
+const theme = {
+  ...DefaultTheme,
+  colors: LightTheme.colors, // Copy it from the color codes scheme and then use it here
+};
 
 
 
@@ -24,7 +29,7 @@ export default function RootLayout() {
 
   return (
     <SessionProvider>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <Slot />
       </PaperProvider >
     </SessionProvider>
