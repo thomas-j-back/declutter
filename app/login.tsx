@@ -6,6 +6,7 @@ import MyButton from '@/components/Button';
 export default function Login() {
 
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     return (
 
         <Card>
@@ -19,6 +20,15 @@ export default function Login() {
                     value={email}
                     mode="outlined"
                     onChangeText={setEmail}
+                />
+            </Card.Content>
+            <Card.Content>
+                <TextInput
+                    label="Password"
+                    value={password}
+                    mode="outlined"
+                    secureTextEntry={true}
+                    onChangeText={setPassword}
                 />
             </Card.Content>
             <Card.Content>
