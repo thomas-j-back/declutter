@@ -6,7 +6,7 @@ import 'react-native-reanimated';
 import { DefaultTheme, PaperProvider } from 'react-native-paper';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Session } from '@supabase/supabase-js';
-import { SessionProvider } from '@/lib/auth';
+import { AuthProvider } from '@/lib/auth';
 import { LightTheme } from '@/components/ui/LightTheme';
 import { DarkTheme } from '@/components/ui/DarkTheme';
 
@@ -28,11 +28,11 @@ export default function RootLayout() {
 
 
   return (
-    <SessionProvider>
+    <AuthProvider>
       <PaperProvider theme={theme}>
         <Slot />
       </PaperProvider >
-    </SessionProvider>
+    </AuthProvider>
 
   );
 }

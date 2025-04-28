@@ -16,6 +16,7 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
         const { data, error } = await signIn(email, password)
         if (error) {
             //handle possible errors
+            //TODO gather list of possible errors with supabase, handle accordingly
         }
         setLoading(false);
     };
@@ -42,14 +43,14 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
                     style={{ borderRadius: 20 }}
                 />
             </Card.Content>
-            <Card.Actions style={styles.marginVerticalmd}>
+            <Card.Content style={styles.marginVerticalmd}>
                 <MyButton mode='outlined' onPress={handleLogin} >
                     {loading ? <ActivityIndicator size="small" color="#000000" /> : 'Login'}
                 </MyButton>
-            </Card.Actions>
-            <Card.Content>
-                <Text onPress={onSwitchToSignup} variant="displaySmall">
-                    Create Account
+            </Card.Content>
+            <Card.Content style={styles.marginVerticalmd}>
+                <Text onPress={onSwitchToSignup} variant="labelSmall" style={{ textAlign: "center" }}>
+                    Sign Up
                 </Text>
             </Card.Content>
         </View>

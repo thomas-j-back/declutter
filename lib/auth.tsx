@@ -1,5 +1,5 @@
 import { useEffect, useState, PropsWithChildren, useContext, createContext } from 'react';
-import { supabase } from './supabase';
+import { supabase } from '@/lib/supabase';
 import { AuthError, Session, User } from '@supabase/supabase-js';
 
 const signIn = async (email: string, password: string) => {
@@ -46,7 +46,7 @@ export function useAuth() {
     return value;
 }
 
-export function SessionProvider({ children }: PropsWithChildren) {
+export function AuthProvider({ children }: PropsWithChildren) {
     const [session, setSession] = useState<Session | null>(null); //First object is the state, second is the function to update the state
     const [loading, setLoading] = useState(true);
 
