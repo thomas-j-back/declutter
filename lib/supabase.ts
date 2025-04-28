@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import Constants from 'expo-constants';
 
 const SUPABASE_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY =  Constants.expoConfig?.extra?.EXPO_PUBLIC_SUPABASE_URL;;
+const SUPABASE_ANON_KEY = Constants.expoConfig?.extra?.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
 // SecureStore adapter implementation
 const ExpoSecureStoreAdapter = {
@@ -18,6 +18,7 @@ const ExpoSecureStoreAdapter = {
     return SecureStore.deleteItemAsync(key);
   },
 };
+
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {

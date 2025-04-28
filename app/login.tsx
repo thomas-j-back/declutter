@@ -1,42 +1,38 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { View } from 'react-native';
+import styles from '@/components/ui/Styles';
 import { supabase } from '@/lib/supabase';
-import { Avatar, Button, Card, Text, TextInput } from 'react-native-paper';
+import { ActivityIndicator, Avatar, Button, Card, Text, TextInput } from 'react-native-paper';
 import MyButton from '@/components/Button';
+import LoginForm from '@/components/login/LoginForm';
+import SignupForm from '@/components/login/SignupForm';
+import { useFocusEffect } from '@react-navigation/native';
 
-export default function Login() {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+export default function LoginPage() {
+    const [mode, setMode] = useState<'login' | 'signup'>('login');
+    // Reset state when screen is focused (i.e. user comes back)
+    useFocusEffect(
+        useCallback(() => {
+            setMode('login'); // Reset to login when coming back
+        }, [])
+    );
+
     return (
-
-        <Card>
+        <Card style={[styles.paddingmd, { height: '100%' }]}>
             <Card.Title title="Welcome to Declutter" />
-            <Card.Content>
-                <Text variant="titleLarge">Create an account to start organizing and styling.</Text>
+            <Card.Content style={styles.marginBottommd}>
+                <Text variant="titleLarge">Declutter</Text>
             </Card.Content>
-            <Card.Content>
-                <TextInput
-                    label="Email"
-                    value={email}
-                    mode="outlined"
-                    onChangeText={setEmail}
-                />
-            </Card.Content>
-            <Card.Content>
-                <TextInput
-                    label="Password"
-                    value={password}
-                    mode="outlined"
-                    secureTextEntry={true}
-                    onChangeText={setPassword}
-                />
-            </Card.Content>
-            <Card.Content>
-                <MyButton onPress={() => console.log('Pressed')} >
-                    Login
-                </MyButton>
-            </Card.Content>
-        </Card>
-    )
+            {mode === 'login' ? (
+                <LoginForm onSwitchToSignup={() => setMode('signup')} />
+            ) : mode === 'signup' ? (
+                <SignupForm onSwitchToLogin={() => setMode('login')} />
+            ) : null}
 
+        </ Card>
+    );
 }
+
+
+

@@ -1,10 +1,10 @@
 import { View, Text } from "react-native";
-import { useAuth, useSession } from "@/lib/auth";
+import { useAuth } from "@/lib/auth";
 import useProtectedRoute from "@/lib/useProtectedRoute";
 import { Redirect, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 export default function Home() {
-    const { session, loading } = useSession();
+    const { session, loading } = useAuth();
 
     useEffect(() => {
         if (loading) {

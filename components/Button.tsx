@@ -4,7 +4,7 @@ import { ButtonProps } from 'react-native-paper';
 
 export default function MyButton({ ...props }: ButtonProps) {
     return (
-        <Button {...props} mode="outlined">
+        <Button {...props} >
             {props.children}
         </Button>
     )

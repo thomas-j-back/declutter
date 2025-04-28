@@ -28,7 +28,7 @@ const properties = [
 type SpacingKey = keyof typeof spacing;
 type PropertyKey = typeof properties[number];
 type StyleConfig = {
-    [K in `${PropertyKey}-${SpacingKey}`]: {
+    [K in `${PropertyKey}${SpacingKey}`]: {
         [P in PropertyKey]: number;
     };
 };
@@ -37,7 +37,7 @@ let stylesConfig: Partial<StyleConfig> = {};
 
 properties.forEach((property) => {
     for (let size in spacing) {
-        const key = `${property}-${size}` as `${PropertyKey}-${SpacingKey}`;
+        const key = `${property}${size}` as `${PropertyKey}${SpacingKey}`;
         stylesConfig[key] = {
             [property]: spacing[size as SpacingKey],
         } as { [P in PropertyKey]: number };
