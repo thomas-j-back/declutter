@@ -25,12 +25,14 @@ const signOut = async () => {
 
 const AuthContext = createContext<{
     session: Session | null;
+    setLoading: (loading: boolean) => void,
     loading: boolean;
     signIn: (email: string, password: string) => Promise<{ data: { session: Session | null; user: User | null }; error: AuthError | null }>;
     signOut: () => Promise<AuthError | null>;
     signUp: (email: string, password: string) => Promise<{ data: { session: Session | null; user: User | null }; error: AuthError | null }>;
 }>({
     session: null,
+    setLoading: (loading: boolean) => { },
     loading: false,
     signIn,
     signOut,
@@ -49,8 +51,6 @@ export function useAuth() {
 export function AuthProvider({ children }: PropsWithChildren) {
     const [session, setSession] = useState<Session | null>(null); //First object is the state, second is the function to update the state
     const [loading, setLoading] = useState(true);
-
-
 
 
     useEffect(() => {//this runs when the component mounts
@@ -74,7 +74,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     //and wraps thsi in our root component
     return (
         <AuthContext.Provider
-            value={{ session, loading, signIn, signOut, signUp }}>
+            value={{ session, loading, signIn, signOut, signUp, setLoading }}>
             {children}
         </AuthContext.Provider>
     )

@@ -20,10 +20,9 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
         }
         setLoading(false);
     };
-
     return (
         <View style={{ height: '100%' }}>
-
+            { }
             <Card.Content style={styles.marginVerticalmd}>
                 <TextInput
                     label="Email"
