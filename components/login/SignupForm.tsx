@@ -3,18 +3,14 @@ import { useState } from "react";
 import { Card, Text, TextInput } from 'react-native-paper';
 import { useAuth } from '@/lib/auth'
 import styles from '../ui/Styles';
-import { signUpSchema, SignUpSchemaType } from '@/validation/auth/signUpSchema';
-
-import EmailStep from '@/components/login/signUpSteps/EmailStep'
-import PasswordStep from '@components/login/signUpSteps/PasswordStep';
+import EmailStep from './signUpSteps/EmailView'
+import PasswordStep from '@/components/login/signUpSteps/PasswordView'
 
 export default function SignupForm({ onSwitchToLogin }: { onSwitchToLogin: () => void }) {
 
     const { signUp } = useAuth();
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
-
-
 
     return (
         <View style={{ height: '100%' }}>
@@ -28,7 +24,7 @@ export default function SignupForm({ onSwitchToLogin }: { onSwitchToLogin: () =>
                     setEmail(email);
                 }} />
             ) : (
-                <PasswordStep email={email} onNext={onSubmit} />
+                <PasswordStep email={email} />
             )}
 
 

@@ -8,9 +8,10 @@ type Props = {
     control: Control<any>;
     placeholder?: string;
     secureTextEntry?: boolean;
+    disabled?: boolean;
 };
 
-export function FormTextInput({ name, control, placeholder, secureTextEntry }: Props) {
+export function FormTextInput({ name, control, placeholder, secureTextEntry, disabled }: Props) {
 
     return (
         <Controller
@@ -28,6 +29,7 @@ export function FormTextInput({ name, control, placeholder, secureTextEntry }: P
                             onBlur={onBlur}
                             error={error ? true : false}
                             style={{ borderRadius: 20 }}
+                            disabled={disabled}
                         />
                         <HelperText type="error" visible={error ? true : false}>
                             {error?.message}

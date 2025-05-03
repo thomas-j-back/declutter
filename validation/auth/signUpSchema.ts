@@ -10,12 +10,11 @@ export const signUpSchema = z.object({
     .refine(password => /[@!$#&*]/.test(password), {message: 'Passsword must have at least one of the following special characters, !@#$%^&*'}),
     confirm: z.string()
 });
-export const fullSignUpSchema = signUpSchema.refine((data) => data.password === data.confirm, {
+
+export const emailStepSchema = signUpSchema.pick({email: true});
+export const passwordStepSchema = signUpSchema.pick({password: true, confirm: true}).refine((data) => data.password === data.confirm, {
     message: "Passwords do not match.",
     path: ["confirm"]
 });
-
-export const emailStepSchema = signUpSchema.pick({email: true});
-export const passwordStepSchema = signUpSchema.pick({password: true, confirm: true})
 
 export type SignUpSchemaType = z.infer<typeof signUpSchema>;
