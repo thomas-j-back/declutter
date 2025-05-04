@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { set, useForm } from 'react-hook-form';
 import MyButton from '@/components/Button';
-
+import { router } from 'expo-router';
 
 export default function PasswordStep({ email }: { email: string }) {
 
@@ -21,7 +21,6 @@ export default function PasswordStep({ email }: { email: string }) {
     });
 
     const [signInError, setSignInError] = useState('');
-    const [disableConfirm, setDisableConfirm] = useState(true);
 
     const theme = useTheme();
 
@@ -40,14 +39,16 @@ export default function PasswordStep({ email }: { email: string }) {
     const onSubmit = async (submitData: SignUpSchemaType) => {
         //if valid start signup logic
         setLoading(true);
-        // const { data, error } = await signUp(submitData.email, submitData.password);
+        const { data, error } = await signUp(submitData.email, submitData.password);
         setLoading(false);
-        const error = { message: 'There was an error. Please try again later.' }
         if (error) {
             //Set some error and tell them to try again
             setSignInError(error.message)
         }
-        //Route to the welcome page, some tutorial idk
+        if (data && !data.user?.email_confirmed_at) {
+            router.replace('(auth)/email-verification');
+        }
+
     }
 
 

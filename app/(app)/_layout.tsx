@@ -16,6 +16,10 @@ export default function Home() {
         return null;
     }
 
+    if (session && !session.user?.email_confirmed_at) {
+        return <Redirect href="/(auth)/email-verification" />
+    }
+
     if (!session) {
         return <Redirect href="/login" />
     }
