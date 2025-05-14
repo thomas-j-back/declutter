@@ -24,7 +24,6 @@ export default function Home() {
         return <Redirect href="/login" />
     }
 
-    return (
-        <Stack />
-    )
+    return <Redirect href="/(home)" />
+
 }

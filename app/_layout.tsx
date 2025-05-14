@@ -9,6 +9,7 @@ import { Session } from '@supabase/supabase-js';
 import { AuthProvider } from '@/lib/auth';
 import { LightTheme } from '@/components/ui/LightTheme';
 import { DarkTheme } from '@/components/ui/DarkTheme';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const theme = {
   ...DefaultTheme,
@@ -28,11 +29,15 @@ export default function RootLayout() {
 
 
   return (
-    <AuthProvider>
-      <PaperProvider theme={theme}>
-        <Slot />
-      </PaperProvider >
-    </AuthProvider>
+    <SafeAreaProvider>
+      <SafeAreaView edges={['top', 'left', 'right']} style={{ flex: 1 }}>
+        <AuthProvider>
+          <PaperProvider theme={theme}>
+            <Slot />
+          </PaperProvider >
+        </AuthProvider>
+      </SafeAreaView>
+    </SafeAreaProvider>
 
   );
 }
