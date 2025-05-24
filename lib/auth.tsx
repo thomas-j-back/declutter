@@ -2,42 +2,20 @@ import { useEffect, useState, PropsWithChildren, useContext, createContext } fro
 import { supabase } from '@/lib/supabase';
 import { AuthError, Session, User } from '@supabase/supabase-js';
 
-const signIn = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-    });
-    return { data, error }
-}
 
-const signUp = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password
-    })
-    return { data, error }
-}
-
-const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    return error;
-}
-
-const AuthContext = createContext<{
+interface AuthContextType {
+    email: string | null;
     session: Session | null;
     setLoading: (loading: boolean) => void,
     loading: boolean;
     signIn: (email: string, password: string) => Promise<{ data: { session: Session | null; user: User | null }; error: AuthError | null }>;
     signOut: () => Promise<AuthError | null>;
     signUp: (email: string, password: string) => Promise<{ data: { session: Session | null; user: User | null }; error: AuthError | null }>;
-}>({
-    session: null,
-    setLoading: (loading: boolean) => { },
-    loading: false,
-    signIn,
-    signOut,
-    signUp
-});
+    resendEmailVerification: () => Promise<AuthError | null>
+    checkUserConfirmation: () => Promise<Boolean | AuthError>
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function useAuth() {
     const value = useContext(AuthContext);
@@ -51,7 +29,7 @@ export function useAuth() {
 export function AuthProvider({ children }: PropsWithChildren) {
     const [session, setSession] = useState<Session | null>(null); //First object is the state, second is the function to update the state
     const [loading, setLoading] = useState(true);
-
+    const [email, setEmail] = useState('');
 
     useEffect(() => {//this runs when the component mounts
         const getSession = async () => {
@@ -70,11 +48,57 @@ export function AuthProvider({ children }: PropsWithChildren) {
             subscription.unsubscribe();
         };
     }, []);// Empty array means this effect runs only on mount/unmount
+
     //This uses our getAuth hook to get session,
     //and wraps thsi in our root component
+    const signIn = async (email: string, password: string) => {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
+        return { data, error }
+    }
+
+    const signUp = async (email: string, password: string) => {
+        debugger;
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password
+        });
+        setEmail(email);
+
+        return { data, error }
+    }
+
+    const signOut = async () => {
+        const { error } = await supabase.auth.signOut();
+        return error;
+    }
+
+    /**
+     * Resends Email confirmation
+     * at users request while awaiting confirmation
+     * @returns error
+     */
+    const resendEmailVerification = async () => {
+        const { data, error } = await supabase.functions.invoke('resend-confirmation');
+        if (error)
+            return error;
+    }
+
+    /**
+     * Checks in Intervals if user has email confirmed
+     * 
+     * @returns Boolean | Error
+     */
+    const checkUserConfirmation = async () => {
+        const { data, error } = await supabase.functions.invoke('check-user-confirmed');
+        return data.validated
+    }
+
     return (
         <AuthContext.Provider
-            value={{ session, loading, signIn, signOut, signUp, setLoading }}>
+            value={{ email, session, loading, signIn, signOut, signUp, setLoading, resendEmailVerification, checkUserConfirmation }}>
             {children}
         </AuthContext.Provider>
     )
