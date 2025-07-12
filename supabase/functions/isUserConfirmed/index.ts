@@ -15,8 +15,8 @@ Deno.serve(async (req) => {
   }
 
   const supabaseClient = createClient(
-    Deno.env.get('REMOTE_URL')!,
-    Deno.env.get('REMOTE_SERVICE_ROLE_KEY')!, // this key has admin privileges,
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, // this key has admin privileges,
   );
 
 

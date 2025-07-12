@@ -33,7 +33,7 @@ export default function EmailStep({ onNext }: { onNext: (email: string) => void 
                 </MyButton>
             </Card.Content>
             <Card.Content>
-                <Text style={{ textAlign: 'center' }} variant="labelLarge">----- OR -----</Text>
+                <Text style={{ textAlign: 'center' }} variant="labelLarge">---------- OR ----------</Text>
                 <MyButton icon="google" mode="outlined" style={{ ...styles.marginVerticalsm }} > Google </MyButton>
                 <MyButton icon="apple" mode="outlined" style={styles.marginVerticalsm} > Apple </MyButton>
             </Card.Content>

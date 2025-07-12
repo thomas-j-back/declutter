@@ -3,7 +3,7 @@ import { useAuth } from "@/lib/auth";
 import useProtectedRoute from "@/lib/useProtectedRoute";
 import { Redirect, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-export default function Home() {
+export default function Index() {
     const { session, loading } = useAuth();
 
     useEffect(() => {
@@ -24,6 +24,6 @@ export default function Home() {
         return <Redirect href="/login" />
     }
 
-    return <Redirect href="/(home)" />
+    return <Redirect href="/(app)/home" />
 
 }

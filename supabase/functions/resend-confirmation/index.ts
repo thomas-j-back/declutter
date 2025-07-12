@@ -18,8 +18,8 @@ Deno.serve(async (req) => {
   }
 
   const supabaseClient = createClient(
-    Deno.env.get('REMOTE_URL')!,
-    Deno.env.get('REMOTE_SERVICE_ROLE_KEY')!, // this key has admin privileges,
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, // this key has admin privileges,
   );
 
   //check is user exists, can't use token as they're not verified yet

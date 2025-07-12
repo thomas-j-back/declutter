@@ -7,7 +7,9 @@ interface AuthContextType {
     email: string | null;
     session: Session | null;
     setLoading: (loading: boolean) => void,
+    setSession: (session: Session | null) => void,
     loading: boolean;
+    setEmail: (email: string) => void,
     signIn: (email: string, password: string) => Promise<{ data: { session: Session | null; user: User | null }; error: AuthError | null }>;
     signOut: () => Promise<AuthError | null>;
     signUp: (email: string, password: string) => Promise<{ data: { session: Session | null; user: User | null }; error: AuthError | null }>;
@@ -81,7 +83,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
      * @returns error
      */
     const resendEmailVerification = async () => {
-        const { data, error } = await supabase.functions.invoke('resend-confirmation');
+        const { data, error } = await supabase.functions.invoke('resend-confirmation', { body: JSON.stringify({ email: email }) });
         if (error)
             return error;
     }
@@ -92,13 +94,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
      * @returns Boolean | Error
      */
     const checkUserConfirmation = async () => {
-        const { data, error } = await supabase.functions.invoke('check-user-confirmed');
-        return data.validated
+        const { data, error } = await supabase.functions.invoke('checkUserConfirmation', { body: JSON.stringify({ email: email }) });
+        return data.emailConfirmedAt != null;
     }
 
     return (
         <AuthContext.Provider
-            value={{ email, session, loading, signIn, signOut, signUp, setLoading, resendEmailVerification, checkUserConfirmation }}>
+            value={{ email, session, loading, signIn, signOut, signUp, setEmail, setLoading, setSession, resendEmailVerification, checkUserConfirmation }}>
             {children}
         </AuthContext.Provider>
     )

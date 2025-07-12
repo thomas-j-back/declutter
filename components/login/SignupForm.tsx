@@ -8,9 +8,9 @@ import PasswordStep from '@/components/login/signUpSteps/PasswordView'
 
 export default function SignupForm({ onSwitchToLogin }: { onSwitchToLogin: () => void }) {
 
-    const { signUp } = useAuth();
+    const { signUp, email, setEmail } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [email, setEmail] = useState('');
+
 
     return (
         <View style={{ height: '100%' }}>

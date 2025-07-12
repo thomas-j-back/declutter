@@ -11,7 +11,7 @@ import { set, useForm } from 'react-hook-form';
 import MyButton from '@/components/Button';
 import { router } from 'expo-router';
 
-export default function PasswordStep({ email }: { email: string }) {
+export default function PasswordStep({ email }: { email: string | null }) {
 
     type PasswordStepData = z.infer<typeof passwordStepSchema>;
 
@@ -46,7 +46,7 @@ export default function PasswordStep({ email }: { email: string }) {
             setSignInError(error.message)
         }
         if (data && !data.user?.email_confirmed_at) {
-            router.replace('(auth)/email-verification');
+            router.replace('/auth/email-verification');
         }
 
     }

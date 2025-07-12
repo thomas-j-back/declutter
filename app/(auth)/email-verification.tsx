@@ -6,17 +6,31 @@ import { supabase } from '@/lib/supabase';
 import styles from '@/components/ui/Styles';
 
 export default function VerifyEmailScreen() {
-    const [checking, setChecking] = useState(true);
-    const { resendEmailVerification, session } = useAuth();
+    const { resendEmailVerification, checkUserConfirmation } = useAuth();
 
-    useEffect(() => {
-        const i_id = setInterval(() => { }, 100);
+    // useEffect(() => {
+    //     const i_id = setInterval(async () => {
+    //         const result = await checkUserConfirmation();
+    //         if (result) {
+    //             clearInterval(i_id);
+    //             //Is it not reaching this point?
+    //             debugger;
+    //             router.replace('/');
+    //         }
+    //     }, 100);
 
+    //     return () => {
+    //         clearInterval(i_id);
+    //     }
+    // })
 
-        return () => {
-            clearInterval(i_id);
+    const checkConfirmation = async () => {
+        const result = await checkUserConfirmation();
+        alert(result);
+        if (result) {
+            router.replace('/(app)/(home)');
         }
-    })
+    }
 
     return (
         <Card>
@@ -24,6 +38,7 @@ export default function VerifyEmailScreen() {
                 <Text variant="titleLarge">Please check your email in order to verify your account.</Text>
                 <Text variant="labelLarge">Didn't recieve an email? </Text>
                 <Button onPress={resendEmailVerification}>Send one again here.</Button>
+                <Button onPress={checkConfirmation}>Click here to check if you are confirmed.</Button>
             </Card.Content>
         </Card>
     )
