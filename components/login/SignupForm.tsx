@@ -1,4 +1,4 @@
-import { ActivityIndicator, View } from 'react-native';
+import { ScrollView, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { useState } from "react";
 import { Card, Text, TextInput } from 'react-native-paper';
 import { useAuth } from '@/lib/auth'
@@ -13,6 +13,7 @@ export default function SignupForm({ onSwitchToLogin }: { onSwitchToLogin: () =>
 
 
     return (
+
         <View style={{ height: '100%' }}>
             <Card.Content>
                 <Text variant="headlineMedium">
@@ -34,5 +35,6 @@ export default function SignupForm({ onSwitchToLogin }: { onSwitchToLogin: () =>
                 </Text>
             </Card.Content>
         </View>
+
     );
 }

@@ -19,7 +19,9 @@ export default function LoginPage() {
     );
 
     return (
+
         <Card style={[styles.paddingmd, { height: '100%' }]}>
+
             <Card.Title title="Welcome to Declutter" />
             <Card.Content style={styles.marginBottommd}>
                 <Text variant="titleLarge">Declutter</Text>

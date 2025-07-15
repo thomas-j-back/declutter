@@ -42,6 +42,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         getSession();
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+
             setSession(session);
         });
 
@@ -58,17 +59,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
             email,
             password,
         });
+        setEmail(email);
         return { data, error }
     }
 
     const signUp = async (email: string, password: string) => {
-        debugger;
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password
         });
         setEmail(email);
-
         return { data, error }
     }
 

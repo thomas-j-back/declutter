@@ -1,6 +1,6 @@
 import { useTheme, ActivityIndicator, Card, Text, List } from 'react-native-paper';
 import { useAuth } from '@/lib/auth';
-import { View } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
 import { FormTextInput } from '@/components/form/FormTextInput';
 import styles from '@/components/ui/Styles';
@@ -46,7 +46,7 @@ export default function PasswordStep({ email }: { email: string | null }) {
             setSignInError(error.message)
         }
         if (data && !data.user?.email_confirmed_at) {
-            router.replace('/auth/email-verification');
+            router.replace('/(auth)/email-verification');
         }
 
     }
@@ -54,48 +54,53 @@ export default function PasswordStep({ email }: { email: string | null }) {
 
     //because we need to use the full schema to parse the password match, we import and test that separately
     return (
-        <View>
-            <Card.Content>
-                <Text variant='labelSmall'>Set a password</Text>
-            </Card.Content>
-            <Card.Content style={styles.marginVerticalsm}>
-                <FormTextInput
-                    name="password"
-                    control={control}
-                    placeholder="Password"
-                    secureTextEntry
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={100}>
+            <ScrollView style={{ flexGrow: 1 }}>
+                <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <Card.Content>
+                        <Text variant='labelSmall'>Set a password</Text>
+                    </Card.Content>
+                    <Card.Content style={styles.marginVerticalsm}>
+                        <FormTextInput
+                            name="password"
+                            control={control}
+                            placeholder="Password"
+                            secureTextEntry
 
-                />
-            </Card.Content>
-            <Card.Content>
-                <Text variant="labelMedium">Password must include:</Text>
-                {passwordRequirements.map((req) => {
+                        />
+                    </Card.Content>
+                    <Card.Content>
+                        <Text variant="labelMedium">Password must include:</Text>
+                        {passwordRequirements.map((req) => {
 
-                    return (
-                        <List.Item
-                            titleStyle={theme.fonts.labelMedium}
-                            title={req.message}
-                            key={req.name}
-                            left={props => <List.Icon icon="circle-small" />}
-                        />)
-                })}
+                            return (
+                                <List.Item
+                                    titleStyle={theme.fonts.labelMedium}
+                                    title={req.message}
+                                    key={req.name}
+                                    left={props => <List.Icon icon="circle-small" />}
+                                />)
+                        })}
 
-            </Card.Content>
-            <Card.Content style={styles.marginVerticalsm}>
-                <FormTextInput
-                    name="confirm"
-                    control={control}
-                    placeholder="Confirm Password"
-                    secureTextEntry
-                    disabled={!password ? true : !!errors.password}
+                    </Card.Content>
+                    <Card.Content style={styles.marginVerticalsm}>
+                        <FormTextInput
+                            name="confirm"
+                            control={control}
+                            placeholder="Confirm Password"
+                            secureTextEntry
+                            disabled={!password ? true : !!errors.password}
 
-                />
-            </Card.Content>
-            {signInError ? (<Card.Content><Text style={{ color: theme.colors.error }} variant="bodyLarge">{signInError}</Text></Card.Content>) : ''}
-            <Card.Content style={styles.marginVerticalmd}>
-                <MyButton mode='outlined' onPress={handleSubmit((data) => onSubmit({ email, ...data }))} disabled={!isValid} >
-                    {loading ? <ActivityIndicator size="small" color="#000000" /> : 'Sign Up'}
-                </MyButton>
-            </Card.Content>
-        </View>)
+                        />
+                    </Card.Content>
+                    {signInError ? (<Card.Content><Text style={{ color: theme.colors.error }} variant="bodyLarge">{signInError}</Text></Card.Content>) : ''}
+                    <Card.Content style={styles.marginVerticalmd}>
+                        <MyButton mode='outlined' onPress={handleSubmit((data) => onSubmit({ email, ...data }))} disabled={!isValid} >
+                            {loading ? <ActivityIndicator size="small" color="#000000" /> : 'Sign Up'}
+                        </MyButton>
+                    </Card.Content>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>)
 }

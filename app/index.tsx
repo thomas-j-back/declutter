@@ -5,7 +5,7 @@ import { Redirect, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 export default function Index() {
     const { session, loading } = useAuth();
-
+    console.log('checking session ' + session);
     useEffect(() => {
         if (loading) {
             SplashScreen.hideAsync();
@@ -17,7 +17,7 @@ export default function Index() {
     }
 
     if (session && !session.user?.email_confirmed_at) {
-        return <Redirect href="/(auth)/email-verification" />
+        return <Redirect href="/auth/email-verification" />
     }
 
     if (!session) {

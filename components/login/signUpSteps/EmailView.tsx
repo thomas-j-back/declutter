@@ -19,7 +19,7 @@ export default function EmailStep({ onNext }: { onNext: (email: string) => void 
     });
 
     return (
-        <View>
+        <View style={{ flexGrow: 1 }}>
             <Card.Content style={styles.marginVerticalsm}>
                 <FormTextInput
                     name="email"
