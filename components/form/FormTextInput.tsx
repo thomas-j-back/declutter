@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function FormTextInput({ name, control, placeholder, secureTextEntry, disabled }: Props) {
-    const [viewSecure, setViewSecure] = useState<boolean>(false);
+    const [viewSecure, setViewSecure] = useState<boolean | undefined>(false);
 
 
     return (
@@ -27,10 +27,11 @@ export function FormTextInput({ name, control, placeholder, secureTextEntry, dis
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={{ position: "relative" }}>
                             <TextInput
+
                                 placeholder={placeholder}
                                 value={value}
                                 mode="outlined"
-                                secureTextEntry={!viewSecure}
+                                secureTextEntry={secureTextEntry ? !viewSecure : undefined}
                                 autoCapitalize="none"        // disables auto-capitalization
                                 autoCorrect={!secureTextEntry}
                                 onChangeText={onChange}

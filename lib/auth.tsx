@@ -94,8 +94,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
      * @returns Boolean | Error
      */
     const checkUserConfirmation = async () => {
-        const { data, error } = await supabase.functions.invoke('checkUserConfirmation', { body: JSON.stringify({ email: email }) });
-        return data.emailConfirmedAt != null;
+        const { data, error } = await supabase.functions.invoke('isUserConfirmed', { body: JSON.stringify({ email: email }) });
+        const res_data = JSON.parse(data);
+        return res_data.emailConfirmedAt != null;
     }
 
     return (

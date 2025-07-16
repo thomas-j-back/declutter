@@ -25,10 +25,14 @@ export default function VerifyEmailScreen() {
     // })
 
     const checkConfirmation = async () => {
+        console.log('running check confirmation')
+        debugger;
         const result = await checkUserConfirmation();
+        console.log(result);
+        debugger;
         alert(result);
         if (result) {
-            router.replace('/(app)/(home)');
+            router.replace('/(app)/home');
         }
     }
 
