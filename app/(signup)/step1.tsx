@@ -7,9 +7,11 @@ import { emailStepSchema } from "@/validation/auth/signUpSchema";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from "zod";
+import { Link, router } from "expo-router";
+import { useSignUpForm } from "./signupContext";
 
 
-export default function EmailStep({ onNext }: { onNext: (email: string) => void }) {
+export default function Step1({ onNext }: { onNext: (email: string) => void }) {
     //We are passing in the onNext to be managed by the top level component
     type EmailStepData = z.infer<typeof emailStepSchema>;
 
@@ -18,8 +20,18 @@ export default function EmailStep({ onNext }: { onNext: (email: string) => void 
         mode: 'onChange'
     });
 
+    const { signupFormData, setFormData } = useSignUpForm();
+
+    const handleContinue = () => {
+        handleSubmit((data) => {
+            setFormData({ email: data.email })
+        });
+        router.push('/(signup)/step2');
+
+    }
+
     return (
-        <View style={{ flexGrow: 1 }}>
+        <View >
             <Card.Content style={styles.marginVerticalsm}>
                 <FormTextInput
                     name="email"
@@ -28,14 +40,20 @@ export default function EmailStep({ onNext }: { onNext: (email: string) => void 
                 />
             </Card.Content>
             <Card.Content style={styles.marginVerticalmd}>
-                <MyButton mode='outlined' disabled={!isValid} onPress={handleSubmit((data) => onNext(data.email))}>
-                    Continue
+                <MyButton mode='outlined' disabled={!isValid} onPress={handleContinue}>
+                    Start Organizing
                 </MyButton>
             </Card.Content>
             <Card.Content>
                 <Text style={{ textAlign: 'center' }} variant="labelLarge">---------- OR ----------</Text>
                 <MyButton icon="google" mode="outlined" style={{ ...styles.marginVerticalsm }} > Google </MyButton>
                 <MyButton icon="apple" mode="outlined" style={styles.marginVerticalsm} > Apple </MyButton>
+            </Card.Content>
+            <Card.Content style={styles.marginVerticalmd}>
+                <Link href="/login" style={{ textAlign: "center" }}>
+                    <Text variant="labelSmall"> Already have an account? Log in</Text>
+
+                </Link>
             </Card.Content>
         </View>)
 }

@@ -47,7 +47,6 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
     };
     return (
         <View style={{ height: '100%' }}>
-            { }
             <Card.Content style={styles.marginVerticalmd}>
                 <FormTextInput
                     name="email"
@@ -70,8 +69,8 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
                 </MyButton>
             </Card.Content>
             <Card.Content style={styles.marginVerticalmd}>
-                <Text onPress={onSwitchToSignup} variant="labelSmall" style={{ textAlign: "center" }}>
-                    Sign Up
+                <Text variant="labelSmall" style={{ textAlign: "center" }}>
+                    Still not a user? <Text onPress={onSwitchToSignup} >Sign Up</Text>
                 </Text>
             </Card.Content>
             <Card.Content style={styles.marginVerticalmd}>
@@ -79,6 +78,6 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
                     {error?.message}
                 </HelperText>
             </Card.Content>
-        </View>
+        </View >
     );
 }

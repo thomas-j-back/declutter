@@ -1,6 +1,6 @@
 import { useTheme, ActivityIndicator, Card, Text, List } from 'react-native-paper';
 import { useAuth } from '@/lib/auth';
-import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 import { FormTextInput } from '@/components/form/FormTextInput';
 import styles from '@/components/ui/Styles';
@@ -54,14 +54,14 @@ export default function PasswordStep({ email }: { email: string | null }) {
 
     //because we need to use the full schema to parse the password match, we import and test that separately
     return (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        <KeyboardAvoidingView style={{ flexGrow: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={100}>
             <ScrollView style={{ flexGrow: 1 }}>
-                <View style={{ flex: 1, justifyContent: 'center' }}>
+                <View>
                     <Card.Content>
                         <Text variant='labelSmall'>Set a password</Text>
                     </Card.Content>
-                    <Card.Content style={styles.marginVerticalsm}>
+                    <Card.Content style={styles.marginTopmd}>
                         <FormTextInput
                             name="password"
                             control={control}
@@ -69,21 +69,19 @@ export default function PasswordStep({ email }: { email: string | null }) {
                             secureTextEntry
 
                         />
-                    </Card.Content>
-                    <Card.Content>
                         <Text variant="labelMedium">Password must include:</Text>
-                        {passwordRequirements.map((req) => {
-
-                            return (
-                                <List.Item
-                                    titleStyle={theme.fonts.labelMedium}
-                                    title={req.message}
-                                    key={req.name}
-                                    left={props => <List.Icon icon="circle-small" />}
-                                />)
-                        })}
+                        <FlatList
+                            data={passwordRequirements}
+                            renderItem={({ item }) => {
+                                if (item.active)
+                                    return <Text variant="labelSmall">{item.message}</Text>;
+                            }}
+                            keyExtractor={item => item.name} />
 
                     </Card.Content>
+
+
+
                     <Card.Content style={styles.marginVerticalsm}>
                         <FormTextInput
                             name="confirm"
@@ -102,5 +100,5 @@ export default function PasswordStep({ email }: { email: string | null }) {
                     </Card.Content>
                 </View>
             </ScrollView>
-        </KeyboardAvoidingView>)
+        </KeyboardAvoidingView >)
 }

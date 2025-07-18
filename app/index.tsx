@@ -5,12 +5,14 @@ import { Redirect, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 export default function Index() {
     const { session, loading } = useAuth();
-    console.log('checking session ' + session);
+
     useEffect(() => {
+        debugger;
         if (loading) {
             SplashScreen.hideAsync();
         }
     }, [loading]);
+    console.log(session)
 
     if (loading) {
         return null;
@@ -21,7 +23,7 @@ export default function Index() {
     }
 
     if (!session) {
-        return <Redirect href="/login" />
+        return <Redirect href="/(signup)/step1" />
     }
 
     return <Redirect href="/(app)/home" />
