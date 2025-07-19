@@ -3,8 +3,8 @@ import { useState, createContext, PropsWithChildren, useContext } from 'react'
 import { z } from "zod";
 
 interface SignupFormType {
-    email?: string,
-    password?: string,
+    email: string,
+    password: string,
     first_name?: string
 }
 
@@ -12,7 +12,11 @@ const SignUpFormContext = createContext<{
     signupFormData: SignupFormType,
     setFormData: (data: Partial<SignupFormType>) => void
 }>({
-    signupFormData: {},
+    signupFormData: {
+        email: '',
+        password: '',
+        first_name: ''
+    },
     setFormData: () => { }
 });
 
@@ -25,7 +29,10 @@ export function useSignUpForm() {
 }
 
 export default function SignUpFormProvider({ children }: PropsWithChildren) {
-    const [signupFormData, setsignupFormData] = useState({});
+    const [signupFormData, setsignupFormData] = useState({
+        email: '',
+        password: ''
+    });
     const setFormData = (data: Partial<SignupFormType>) => {
         setsignupFormData(prev => ({ ...prev, ...data }))
     }

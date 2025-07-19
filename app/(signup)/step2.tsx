@@ -10,8 +10,9 @@ import { z } from 'zod';
 import { set, useForm } from 'react-hook-form';
 import MyButton from '@/components/Button';
 import { router } from 'expo-router';
+import { useSignUpForm } from './signupContext';
 
-export default function PasswordStep({ email }: { email: string | null }) {
+export default function PasswordStep() {
 
     type PasswordStepData = z.infer<typeof passwordStepSchema>;
 
@@ -26,6 +27,8 @@ export default function PasswordStep({ email }: { email: string | null }) {
 
     const password = watch('password');
 
+    const { signupFormData, setFormData } = useSignUpForm();
+
     const { loading, signUp, setLoading } = useAuth();
     //I wanna use these + the zod validation to show and hide these as they are checked off
     const [passwordRequirements, setPasswordRequirements] = useState([
@@ -36,17 +39,18 @@ export default function PasswordStep({ email }: { email: string | null }) {
     ])
 
 
-    const onSubmit = async (submitData: SignUpSchemaType) => {
+    const onSubmit = async (submitData: PasswordStepData) => {
         //if valid start signup logic
         setLoading(true);
-        const { data, error } = await signUp(submitData.email, submitData.password);
+        const { data, error } = await signUp(signupFormData.email, submitData.password);
         setLoading(false);
         if (error) {
             //Set some error and tell them to try again
-            setSignInError(error.message)
+            setSignInError(error.message);
+            return;
         }
         if (data && !data.user?.email_confirmed_at) {
-            router.replace('/(auth)/email-verification');
+            router.navigate('/(auth)/email-verification');
         }
 
     }
@@ -70,13 +74,13 @@ export default function PasswordStep({ email }: { email: string | null }) {
 
                         />
                         <Text variant="labelMedium">Password must include:</Text>
-                        <FlatList
+                        {/* <FlatList
                             data={passwordRequirements}
                             renderItem={({ item }) => {
                                 if (item.active)
                                     return <Text variant="labelSmall">{item.message}</Text>;
                             }}
-                            keyExtractor={item => item.name} />
+                            keyExtractor={item => item.name} /> */}
 
                     </Card.Content>
 
@@ -94,7 +98,7 @@ export default function PasswordStep({ email }: { email: string | null }) {
                     </Card.Content>
                     {signInError ? (<Card.Content><Text style={{ color: theme.colors.error }} variant="bodyLarge">{signInError}</Text></Card.Content>) : ''}
                     <Card.Content style={styles.marginVerticalmd}>
-                        <MyButton mode='outlined' onPress={handleSubmit((data) => onSubmit({ email, ...data }))} disabled={!isValid} >
+                        <MyButton mode='outlined' onPress={handleSubmit((data) => onSubmit(data))} disabled={!isValid} >
                             {loading ? <ActivityIndicator size="small" color="#000000" /> : 'Sign Up'}
                         </MyButton>
                     </Card.Content>

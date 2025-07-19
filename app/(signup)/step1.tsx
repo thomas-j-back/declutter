@@ -22,12 +22,9 @@ export default function Step1({ onNext }: { onNext: (email: string) => void }) {
 
     const { signupFormData, setFormData } = useSignUpForm();
 
-    const handleContinue = () => {
-        handleSubmit((data) => {
-            setFormData({ email: data.email })
-        });
+    const handleContinue = (data: EmailStepData) => {
+        setFormData({ email: data.email })
         router.push('/(signup)/step2');
-
     }
 
     return (
@@ -40,7 +37,7 @@ export default function Step1({ onNext }: { onNext: (email: string) => void }) {
                 />
             </Card.Content>
             <Card.Content style={styles.marginVerticalmd}>
-                <MyButton mode='outlined' disabled={!isValid} onPress={handleContinue}>
+                <MyButton mode='outlined' disabled={!isValid} onPress={handleSubmit((data) => handleContinue(data))}>
                     Start Organizing
                 </MyButton>
             </Card.Content>
