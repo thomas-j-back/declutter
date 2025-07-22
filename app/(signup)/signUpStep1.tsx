@@ -10,8 +10,12 @@ import { z } from "zod";
 import { Link, router } from "expo-router";
 import { useSignUpForm } from "./signupContext";
 
-
-export default function Step1({ onNext }: { onNext: (email: string) => void }) {
+/**
+ * Holds email request, initiates email signup by navigating to PW
+ * form after
+ * @returns 
+ */
+export default function SignupStep1() {
     //We are passing in the onNext to be managed by the top level component
     type EmailStepData = z.infer<typeof emailStepSchema>;
 
@@ -24,7 +28,7 @@ export default function Step1({ onNext }: { onNext: (email: string) => void }) {
 
     const handleContinue = (data: EmailStepData) => {
         setFormData({ email: data.email })
-        router.push('/(signup)/step2');
+        router.push('/(signup)/signUpStep2');
     }
 
     return (
@@ -34,23 +38,13 @@ export default function Step1({ onNext }: { onNext: (email: string) => void }) {
                     name="email"
                     control={control}
                     placeholder="Email"
+                    maxLength={20}
                 />
             </Card.Content>
             <Card.Content style={styles.marginVerticalmd}>
                 <MyButton mode='outlined' disabled={!isValid} onPress={handleSubmit((data) => handleContinue(data))}>
-                    Start Organizing
+                    Sign Up
                 </MyButton>
-            </Card.Content>
-            <Card.Content>
-                <Text style={{ textAlign: 'center' }} variant="labelLarge">---------- OR ----------</Text>
-                <MyButton icon="google" mode="outlined" style={{ ...styles.marginVerticalsm }} > Google </MyButton>
-                <MyButton icon="apple" mode="outlined" style={styles.marginVerticalsm} > Apple </MyButton>
-            </Card.Content>
-            <Card.Content style={styles.marginVerticalmd}>
-                <Link href="/login" style={{ textAlign: "center" }}>
-                    <Text variant="labelSmall"> Already have an account? Log in</Text>
-
-                </Link>
             </Card.Content>
         </View>)
 }

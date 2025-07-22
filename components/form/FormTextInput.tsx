@@ -11,9 +11,10 @@ type Props = {
     placeholder?: string;
     secureTextEntry?: boolean;
     disabled?: boolean;
+    maxLength?: number | undefined
 };
 
-export function FormTextInput({ name, control, placeholder, secureTextEntry, disabled }: Props) {
+export function FormTextInput({ name, control, placeholder, secureTextEntry, disabled, maxLength }: Props) {
     const [viewSecure, setViewSecure] = useState<boolean | undefined>(false);
 
 
@@ -27,7 +28,7 @@ export function FormTextInput({ name, control, placeholder, secureTextEntry, dis
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={{ position: "relative" }}>
                             <TextInput
-
+                                maxLength={maxLength}
                                 placeholder={placeholder}
                                 value={value}
                                 mode="outlined"

@@ -23,7 +23,7 @@ export default function Index() {
     }
 
     if (!session) {
-        return <Redirect href="/(signup)/step1" />
+        return <Redirect href="/(signup)/signupStart" />
     }
 
     return <Redirect href="/(app)/home" />

@@ -4,7 +4,7 @@ import { View, ScrollView, KeyboardAvoidingView, Platform, FlatList } from 'reac
 import { useEffect, useState } from 'react';
 import { FormTextInput } from '@/components/form/FormTextInput';
 import styles from '@/components/ui/Styles';
-import { passwordStepSchema, SignUpSchemaType } from '@/validation/auth/signUpSchema';
+import { step2Schema } from '@/validation/auth/signUpSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { set, useForm } from 'react-hook-form';
@@ -12,12 +12,12 @@ import MyButton from '@/components/Button';
 import { router } from 'expo-router';
 import { useSignUpForm } from './signupContext';
 
-export default function PasswordStep() {
+export default function SignupStep2() {
 
-    type PasswordStepData = z.infer<typeof passwordStepSchema>;
+    type PasswordStepData = z.infer<typeof step2Schema>;
 
     const { watch, control, handleSubmit, formState: { errors, isValid }, setError } = useForm<PasswordStepData>({
-        resolver: zodResolver(passwordStepSchema),
+        resolver: zodResolver(step2Schema),
         mode: 'onChange'
     });
 
@@ -60,21 +60,31 @@ export default function PasswordStep() {
     return (
         <KeyboardAvoidingView style={{ flexGrow: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={100}>
-            <ScrollView style={{ flexGrow: 1 }}>
-                <View>
-                    <Card.Content>
-                        <Text variant='labelSmall'>Set a password</Text>
-                    </Card.Content>
-                    <Card.Content style={styles.marginTopmd}>
-                        <FormTextInput
-                            name="password"
-                            control={control}
-                            placeholder="Password"
-                            secureTextEntry
+            <View>
+                <Card.Content>
+                    <Text variant='labelSmall'>First name</Text>
+                </Card.Content>
+                <Card.Content style={styles.marginVerticalsm}>
+                    <FormTextInput
+                        name="name"
+                        control={control}
+                        placeholder="What should we call you?"
+                    />
+                </Card.Content>
+                <Card.Content>
+                    <Text variant='labelSmall'>Set a password</Text>
+                </Card.Content>
+                <Card.Content style={styles.marginTopmd}>
+                    <FormTextInput
+                        name="password"
+                        control={control}
+                        placeholder="Password"
+                        secureTextEntry
 
-                        />
-                        <Text variant="labelMedium">Password must include:</Text>
-                        {/* <FlatList
+                    />
+                    {/*}
+                    <Text variant="labelMedium">Password must include:</Text>
+                    <FlatList
                             data={passwordRequirements}
                             renderItem={({ item }) => {
                                 if (item.active)
@@ -82,27 +92,17 @@ export default function PasswordStep() {
                             }}
                             keyExtractor={item => item.name} /> */}
 
-                    </Card.Content>
+                </Card.Content>
 
 
 
-                    <Card.Content style={styles.marginVerticalsm}>
-                        <FormTextInput
-                            name="confirm"
-                            control={control}
-                            placeholder="Confirm Password"
-                            secureTextEntry
-                            disabled={!password ? true : !!errors.password}
 
-                        />
-                    </Card.Content>
-                    {signInError ? (<Card.Content><Text style={{ color: theme.colors.error }} variant="bodyLarge">{signInError}</Text></Card.Content>) : ''}
-                    <Card.Content style={styles.marginVerticalmd}>
-                        <MyButton mode='outlined' onPress={handleSubmit((data) => onSubmit(data))} disabled={!isValid} >
-                            {loading ? <ActivityIndicator size="small" color="#000000" /> : 'Sign Up'}
-                        </MyButton>
-                    </Card.Content>
-                </View>
-            </ScrollView>
+                {signInError ? (<Card.Content><Text style={{ color: theme.colors.error }} variant="bodyLarge">{signInError}</Text></Card.Content>) : ''}
+                <Card.Content style={styles.marginVerticalmd}>
+                    <MyButton mode='outlined' onPress={handleSubmit((data) => onSubmit(data))} disabled={!isValid} >
+                        {loading ? <ActivityIndicator size="small" color="#000000" /> : 'Sign Up'}
+                    </MyButton>
+                </Card.Content>
+            </View>
         </KeyboardAvoidingView >)
 }

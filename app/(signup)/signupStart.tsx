@@ -1,0 +1,26 @@
+import MyButton from "@/components/Button";
+import styles from "@/components/ui/Styles";
+import { View } from "react-native";
+import { Card, Text } from "react-native-paper";
+import SignupStep1 from "./signUpStep1";
+import { Link, router } from "expo-router";
+
+
+export default function SignupStart() {
+    //We are passing in the onNext to be managed by the top level component
+    return (
+        <View >
+            <SignupStep1 />
+
+            <Card.Content>
+                <Text style={{ textAlign: 'center' }} variant="labelLarge">---------- OR ----------</Text>
+                <MyButton icon="google" mode="outlined" style={{ ...styles.marginVerticalsm }} > Google </MyButton>
+                <MyButton icon="apple" mode="outlined" style={styles.marginVerticalsm} > Apple </MyButton>
+            </Card.Content>
+            <Card.Content style={styles.marginVerticalmd}>
+                <Link href="/(login)/loginForm" style={{ textAlign: "center" }}>
+                    <Text variant="labelSmall"> Already have an account? Log in</Text>
+                </Link>
+            </Card.Content>
+        </View>)
+}

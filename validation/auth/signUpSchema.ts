@@ -8,13 +8,10 @@ export const signUpSchema = z.object({
     .refine(password => /[a-z]/.test(password), {message: 'Passsord must have at least 1 lowercase letter.'})
     .refine(password => /[0-9]/.test(password), {message: 'Password must have at least one number'})
     .refine(password => /[@!$#&*]/.test(password), {message: 'Passsword must have at least one of the following special characters, !@#$%^&*'}),
-    confirm: z.string()
+    name: z.string()
 });
 
 export const emailStepSchema = signUpSchema.pick({email: true});
-export const passwordStepSchema = signUpSchema.pick({password: true, confirm: true}).refine((data) => data.password === data.confirm, {
-    message: "Passwords do not match.",
-    path: ["confirm"]
-});
+export const step2Schema = signUpSchema.pick({password: true, name: true});
 
 export type SignUpSchemaType = z.infer<typeof signUpSchema>;
