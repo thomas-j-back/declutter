@@ -1,6 +1,7 @@
 import { useEffect, useState, PropsWithChildren, useContext, createContext } from 'react';
 import { supabase } from '@/lib/supabase';
 import { AuthError, Session, User } from '@supabase/supabase-js';
+import { router } from 'expo-router';
 
 
 interface AuthContextType {
@@ -75,6 +76,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
     const signOut = async () => {
         const { error } = await supabase.auth.signOut();
+        router.replace('/');
+        setSession(null);
         return error;
     }
 

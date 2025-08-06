@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { Card, Text } from "react-native-paper";
 import SignupStep1 from "./signUpStep1";
 import { Link, router } from "expo-router";
+import AuthProviderOptions from "@/components/auth/authProviderOptions";
 
 
 export default function SignupStart() {
@@ -12,11 +13,7 @@ export default function SignupStart() {
         <View >
             <SignupStep1 />
 
-            <Card.Content>
-                <Text style={{ textAlign: 'center' }} variant="labelLarge">---------- OR ----------</Text>
-                <MyButton icon="google" mode="outlined" style={{ ...styles.marginVerticalsm }} > Google </MyButton>
-                <MyButton icon="apple" mode="outlined" style={styles.marginVerticalsm} > Apple </MyButton>
-            </Card.Content>
+            <AuthProviderOptions />
             <Card.Content style={styles.marginVerticalmd}>
                 <Link href="/(login)/loginForm" style={{ textAlign: "center" }}>
                     <Text variant="labelSmall"> Already have an account? Log in</Text>

@@ -38,7 +38,7 @@ export default function SignupStep1() {
                     name="email"
                     control={control}
                     placeholder="Email"
-                    maxLength={20}
+                    maxLength={100}
                 />
             </Card.Content>
             <Card.Content style={styles.marginVerticalmd}>

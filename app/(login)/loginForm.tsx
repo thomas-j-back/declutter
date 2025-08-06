@@ -11,6 +11,7 @@ import styles from '@/components/ui/Styles';
 import MyButton from '@/components/Button';
 import { Link, router } from 'expo-router';
 import { AuthError } from '@supabase/supabase-js';
+import AuthProviderOptions from '@/components/auth/authProviderOptions';
 
 export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () => void }) {
     const { signIn, checkUserConfirmation } = useAuth();
@@ -47,7 +48,7 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
     };
     return (
         <View >
-            <Card.Content style={styles.marginVerticalmd}>
+            <Card.Content style={styles.marginVerticalsm}>
                 <FormTextInput
                     name="email"
                     control={control}
@@ -55,7 +56,7 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
                     maxLength={20}
                 />
             </Card.Content>
-            <Card.Content style={styles.marginVerticalmd}>
+            <Card.Content >
                 <FormTextInput
                     name="password"
                     control={control}
@@ -65,14 +66,17 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
 
                 />
             </Card.Content>
-            <Card.Content style={styles.marginVerticalmd}>
+            <Card.Content style={styles.marginBottomlg}>
                 <MyButton mode='outlined' onPress={handleSubmit((data) => handleLogin(data))} disabled={!isValid} >
                     {loading ? <ActivityIndicator size="small" color="#000000" /> : 'Login'}
                 </MyButton>
             </Card.Content>
-            <Card.Content style={styles.marginVerticalmd}>
+
+            <AuthProviderOptions />
+
+            <Card.Content style={styles.marginVerticallg}>
                 <Link href="(signup)/signupStart">
-                    <Text variant="labelSmall" style={{ textAlign: "center" }}>
+                    <Text variant="labelMedium" style={{ textAlign: "center" }}>
                         Still not a user? <Text onPress={onSwitchToSignup} >Sign Up</Text>
                     </Text>
                 </Link>
