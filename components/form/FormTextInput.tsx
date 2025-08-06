@@ -41,7 +41,7 @@ export function FormTextInput({ name, control, placeholder, secureTextEntry, dis
                                 style={{ borderRadius: 20 }}
                                 disabled={disabled}
                             />
-                            {secureTextEntry ? <TouchableOpacity onPress={() => { setViewSecure(!viewSecure) }} style={{ position: 'absolute', right: 0, top: 10 }}>
+                            {secureTextEntry ? <TouchableOpacity testID="eye-icon" onPress={() => { setViewSecure(!viewSecure) }} style={{ position: 'absolute', right: 0, top: 10 }}>
                                 <MyButton icon={viewSecure ? "eye-off" : "eye-outline"}> </MyButton>
                             </TouchableOpacity> : null}
                             <HelperText type="error" visible={error ? true : false}>

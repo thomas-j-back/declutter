@@ -8,11 +8,9 @@ import AuthProviderOptions from "@/components/auth/authProviderOptions";
 
 
 export default function SignupStart() {
-    //We are passing in the onNext to be managed by the top level component
     return (
         <View >
             <SignupStep1 />
-
             <AuthProviderOptions />
             <Card.Content style={styles.marginVerticalmd}>
                 <Link href="/(login)/loginForm" style={{ textAlign: "center" }}>

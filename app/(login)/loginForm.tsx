@@ -40,7 +40,7 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
         }
         const isConfirmed = await checkUserConfirmation();
         if (!isConfirmed) {
-            router.replace('/(auth)/email-verification');
+            router.replace('/(auth)/emailVerification');
         } else {
             router.replace('/(app)/home');
         }
@@ -53,7 +53,7 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
                     name="email"
                     control={control}
                     placeholder="Email"
-                    maxLength={20}
+                    maxLength={100}
                 />
             </Card.Content>
             <Card.Content >
@@ -70,6 +70,9 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
                 <MyButton mode='outlined' onPress={handleSubmit((data) => handleLogin(data))} disabled={!isValid} >
                     {loading ? <ActivityIndicator size="small" color="#000000" /> : 'Login'}
                 </MyButton>
+                <HelperText type="error" visible={error ? true : false}>
+                    {error?.message}
+                </HelperText>
             </Card.Content>
 
             <AuthProviderOptions />
@@ -83,9 +86,7 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
 
             </Card.Content>
             <Card.Content style={styles.marginVerticalmd}>
-                <HelperText type="error" visible={error ? true : false}>
-                    {error?.message}
-                </HelperText>
+
             </Card.Content>
         </View >
     );

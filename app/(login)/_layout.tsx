@@ -7,7 +7,7 @@ import { Card } from "react-native-paper";
 export default function LoginPage() {
     return (
         <Card style={[styles.paddingmd, { flex: 1, justifyContent: 'center' }]}>
-            <Card.Title titleVariant="headlineMedium" title="Welcome to Declutter!" subtitle="Sign up to begin your decluttering journey" />
+            <Card.Title titleVariant="headlineMedium" title="Welcome Back" subtitle="Sign in to get back to organizing" />
             <Slot />
 
         </Card>

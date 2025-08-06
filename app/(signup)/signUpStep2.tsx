@@ -1,13 +1,13 @@
 import { useTheme, ActivityIndicator, Card, Text, List } from 'react-native-paper';
 import { useAuth } from '@/lib/auth';
-import { View, ScrollView, KeyboardAvoidingView, Platform, FlatList } from 'react-native';
-import { useEffect, useState } from 'react';
+import { View, KeyboardAvoidingView, Platform, FlatList } from 'react-native';
+import { useState } from 'react';
 import { FormTextInput } from '@/components/form/FormTextInput';
 import styles from '@/components/ui/Styles';
-import { step2Schema } from '@/validation/auth/signUpSchema';
+import { step2Schema, passwordValidations } from '@/validation/auth/signUpSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import MyButton from '@/components/Button';
 import { router } from 'expo-router';
 import { useSignUpForm } from './signupContext';
@@ -25,18 +25,12 @@ export default function SignupStep2() {
 
     const theme = useTheme();
 
-    const password = watch('password');
+    const { password } = watch();
 
     const { signupFormData, setFormData } = useSignUpForm();
 
     const { loading, signUp, setLoading } = useAuth();
-    //I wanna use these + the zod validation to show and hide these as they are checked off
-    const [passwordRequirements, setPasswordRequirements] = useState([
-        { name: 'length', message: 'At least 10 characters', active: true },
-        { name: 'special', message: 'One of the following special characters: @!$#&*', active: true },
-        { name: 'case', message: 'At least one upper case character', active: true },
-        { name: 'number', message: 'At least one number', active: true }
-    ])
+
 
 
     const onSubmit = async (submitData: PasswordStepData) => {
@@ -44,13 +38,17 @@ export default function SignupStep2() {
         setLoading(true);
         const { data, error } = await signUp(signupFormData.email, submitData.password);
         setLoading(false);
+        if (data.session == null) {
+            setSignInError("Account with email already exists. Please sign in.");
+            return;
+        }
         if (error) {
             //Set some error and tell them to try again
             setSignInError(error.message);
             return;
         }
         if (data && !data.user?.email_confirmed_at) {
-            router.navigate('/(auth)/email-verification');
+            router.navigate('/(auth)/emailVerification');
         }
 
     }
@@ -82,15 +80,16 @@ export default function SignupStep2() {
                         secureTextEntry
 
                     />
-                    {/*}
-                    <Text variant="labelMedium">Password must include:</Text>
-                    <FlatList
-                            data={passwordRequirements}
-                            renderItem={({ item }) => {
-                                if (item.active)
-                                    return <Text variant="labelSmall">{item.message}</Text>;
-                            }}
-                            keyExtractor={item => item.name} /> */}
+
+                    <Text variant="labelMedium">Password:</Text>
+                    {Object.entries(passwordValidations).map(([key, value]) => {
+                        let passed: boolean | void = false;
+                        if (typeof password == 'string') {
+                            passed = value.test(password)
+                        }
+
+                        return (<Text key={key} style={{ color: passed ? 'green' : 'red' }} variant='labelMedium'>{value.label}</Text>)
+                    })}
 
                 </Card.Content>
 
