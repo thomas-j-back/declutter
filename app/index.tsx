@@ -11,7 +11,6 @@ export default function Index() {
             SplashScreen.hideAsync();
         }
     }, [loading]);
-    console.log(session)
 
     if (loading) {
         return null;

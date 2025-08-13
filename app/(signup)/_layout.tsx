@@ -8,7 +8,7 @@ import styles from '@/components/ui/Styles'
 export default function SignupPage() {
     return (
         <Card style={[styles.paddingmd, { flex: 1, justifyContent: 'center' }]}>
-            <Card.Title titleVariant="headlineMedium" title="Welcome to Declutter!" subtitle="Sign up to begin your decluttering journey" />
+            <Card.Title titleVariant="headlineMedium" title="Welcome to Tidy Home" subtitle="Sign up to begin tidying up" />
             <SignUpFormProvider>
                 <Slot />
             </SignUpFormProvider>

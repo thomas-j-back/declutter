@@ -37,9 +37,9 @@ export const signUpSchema = z.object({
     password: z.string().min(10)
     .refine(password => password.length <= 32)
     .refine(password => /[A-Z]/.test(password))
-    .refine(password => /[a-z]/.test(password), {message: 'Passsord must have at least 1 lowercase letter.'})
-    .refine(password => /[0-9]/.test(password), {message: 'Password must have at least one number'})
-    .refine(password => /[@!$#&*]/.test(password), {message: 'Passsword must have at least one of the following special characters, !@#$%^&*'}),
+    .refine(password => /[a-z]/.test(password))
+    .refine(password => /[0-9]/.test(password))
+    .refine(password => /[@!$#&*]/.test(password)),
     name: z.string()
 });
 

@@ -12,9 +12,10 @@ type Props = {
     secureTextEntry?: boolean;
     disabled?: boolean;
     maxLength?: number | undefined
+    hideError?: boolean
 };
 
-export function FormTextInput({ name, control, placeholder, secureTextEntry, disabled, maxLength }: Props) {
+export function FormTextInput({ name, control, placeholder, secureTextEntry, disabled, maxLength, hideError }: Props) {
     const [viewSecure, setViewSecure] = useState<boolean | undefined>(false);
 
 
@@ -44,7 +45,7 @@ export function FormTextInput({ name, control, placeholder, secureTextEntry, dis
                             {secureTextEntry ? <TouchableOpacity testID="eye-icon" onPress={() => { setViewSecure(!viewSecure) }} style={{ position: 'absolute', right: 0, top: 10 }}>
                                 <MyButton icon={viewSecure ? "eye-off" : "eye-outline"}> </MyButton>
                             </TouchableOpacity> : null}
-                            <HelperText type="error" visible={error ? true : false}>
+                            <HelperText type="error" visible={hideError ? false : (error ? true : false)}>
                                 {error?.message}
                             </HelperText>
                         </View>

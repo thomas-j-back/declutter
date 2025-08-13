@@ -78,6 +78,7 @@ export default function SignupStep2() {
                         control={control}
                         placeholder="Password"
                         secureTextEntry
+                        hideError={true}
 
                     />
 
@@ -86,6 +87,9 @@ export default function SignupStep2() {
                         let passed: boolean | void = false;
                         if (typeof password == 'string') {
                             passed = value.test(password)
+                        }
+                        if (passed) {
+                            return null;
                         }
 
                         return (<Text key={key} style={{ color: passed ? 'green' : 'red' }} variant='labelMedium'>{value.label}</Text>)

@@ -4,30 +4,17 @@ import { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import { supabase } from '@/lib/supabase';
 import styles from '@/components/ui/Styles';
+import { ToastAndroid } from 'react-native';
 
 export default function VerifyEmailScreen() {
     const { resendEmailVerification, checkUserConfirmation } = useAuth();
-
-    // useEffect(() => {
-    //     const i_id = setInterval(async () => {
-    //         const result = await checkUserConfirmation();
-    //         if (result) {
-    //             clearInterval(i_id);
-    //             //Is it not reaching this point?
-    //             debugger;
-    //             router.replace('/');
-    //         }
-    //     }, 100);
-
-    //     return () => {
-    //         clearInterval(i_id);
-    //     }
-    // })
 
     const checkConfirmation = async () => {
         const result = await checkUserConfirmation();
         if (result) {
             router.replace('/(app)/home');
+        } else {
+            ToastAndroid.show('Email has not been confirmed yet', ToastAndroid.SHORT);
         }
     }
 
