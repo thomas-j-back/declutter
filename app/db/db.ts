@@ -1,21 +1,12 @@
-import {
-    enablePromise,
-    openDatabase,
-} from 'react-native-sqlite-storage';
+import * as SQLite from 'expo-sqlite';
 
-enablePromise(true)
+let db: SQLite.SQLiteDatabase | null = null;
 
-
-export const connectToDatabase = async () => {
-    return openDatabase({
-        name: 'tidyUpLocal.db', location: 'default'
-    },
-    () => {
-        console.log('Database opened successfully')
-    },
-    (error) => {
-        console.error(error);
-        throw Error('Could not connect to databse')
+export default async function getDb() {
+    if(!db) {
+        db = await SQLite.openDatabaseAsync('tidyUpLocal.db')
     }
-)
+    return db;
 }
+
+
