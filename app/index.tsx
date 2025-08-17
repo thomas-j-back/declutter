@@ -3,7 +3,6 @@ import { useAuth } from "@/lib/auth";
 import useProtectedRoute from "@/lib/useProtectedRoute";
 import { Redirect, SplashScreen, Stack } from "expo-router";
 import { useCallback, useEffect } from "react";
-import { createTaskTable } from "./db/task";
 
 export default function Index() {
     const { session, loading, checkUserConfirmation } = useAuth();
@@ -14,7 +13,7 @@ export default function Index() {
         if (loading) {
             SplashScreen.hideAsync();
         }
-        createTaskTable();
+
 
     }, [loading]);
 

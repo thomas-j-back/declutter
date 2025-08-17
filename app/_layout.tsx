@@ -10,6 +10,7 @@ import { AuthProvider } from '@/lib/auth';
 import { LightTheme } from '@/components/ui/LightTheme';
 import { DarkTheme } from '@/components/ui/DarkTheme';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { DBProvider } from './db/DBContext'
 
 const theme = {
   ...DefaultTheme,
@@ -32,9 +33,11 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <SafeAreaView edges={['top', 'left', 'right']} style={{ flex: 1 }}>
         <AuthProvider>
-          <PaperProvider theme={theme}>
-            <Slot />
-          </PaperProvider >
+          <DBProvider>
+            <PaperProvider theme={theme}>
+              <Slot />
+            </PaperProvider >
+          </DBProvider>
         </AuthProvider>
       </SafeAreaView>
     </SafeAreaProvider>
