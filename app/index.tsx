@@ -29,6 +29,6 @@ export default function Index() {
         return <Redirect href="/(signup)/signupStart" />
     }
 
-    return <Redirect href="/(app)/home" />
+    return <Redirect href="home" />
 
 }

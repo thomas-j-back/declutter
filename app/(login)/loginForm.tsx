@@ -42,7 +42,7 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
         if (!isConfirmed) {
             router.replace('/(auth)/emailVerification');
         } else {
-            router.replace('/(app)/home');
+            router.replace('/home');
         }
 
     };

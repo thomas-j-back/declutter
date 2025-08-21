@@ -12,7 +12,7 @@ export default function VerifyEmailScreen() {
     const checkConfirmation = async () => {
         const result = await checkUserConfirmation();
         if (result) {
-            router.replace('/(app)/home');
+            router.replace('/home');
         } else {
             ToastAndroid.show('Email has not been confirmed yet', ToastAndroid.SHORT);
         }
