@@ -5,7 +5,8 @@ import TaskService from './services/taskService'
 import createTaskTable from "./task";
 
 interface DbContextType {
-    db: SQLiteDatabase | null
+    db: SQLiteDatabase | null,
+    taskService: TaskService | undefined
 };
 
 
@@ -28,7 +29,7 @@ export function DBProvider({ children }: PropsWithChildren) {
 
     useEffect(() => {
         (async () => {
-            const db = await getDb();//
+            const db = await getDb();
             setDb(db);
             //Create tables
             await createTaskTable(db);
@@ -36,5 +37,5 @@ export function DBProvider({ children }: PropsWithChildren) {
 
         })();
     })
-    return <DBContext.Provider value={{ db }}>{children}</DBContext.Provider>
+    return <DBContext.Provider value={{ db, taskService }}>{children}</DBContext.Provider>
 }

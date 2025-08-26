@@ -7,14 +7,10 @@ import { useAuth } from '@/lib/auth';
 import { Stack } from 'expo-router';
 
 export default function Layout() {
-    const { signOut } = useAuth();
 
     return (
-
-
         <Stack>
             <Stack.Screen name="(hometabs)" options={{ headerShown: false }} />
         </Stack>
-
     );
 }

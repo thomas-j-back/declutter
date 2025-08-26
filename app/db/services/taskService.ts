@@ -1,7 +1,6 @@
-import { Session } from "@supabase/supabase-js";
 import { SQLiteDatabase } from "expo-sqlite";
-import { Task } from "react-native";
 import { useAuth } from "@/lib/auth";
+import { Task } from "@/constants/types/TaskType";
 
 interface TaskParams {
     task_id?: string,
@@ -9,7 +8,6 @@ interface TaskParams {
     task_location: string,
     user_id?: string,
     status?: string
-//sdf
 }
 
 export default class TaskService {
@@ -63,12 +61,14 @@ export default class TaskService {
         }
     }
 
-    async getAll(params: TaskParams) {
+    async getAllPending(): Promise<Array<Task>> {
+        let tasks: Task[] = [];
         try {
-            return this.db.getAllAsync("SELECT * FROM Task;");
+            tasks = await this.db.getAllAsync<Task>("SELECT * FROM Task WHERE status = pending;");
         } catch(e) {
             this._throwError(e)
         }
+        return tasks;
     }
 
     _throwError(e) {

@@ -85,9 +85,6 @@ export default function LoginForm({ onSwitchToSignup }: { onSwitchToSignup: () =
                 </Link>
 
             </Card.Content>
-            <Card.Content style={styles.marginVerticalmd}>
-
-            </Card.Content>
         </View >
     );
 }
