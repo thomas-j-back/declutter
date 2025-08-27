@@ -9,7 +9,7 @@ export default function CreateTaskTab() {
     return (
         <TouchableOpacity
             onPress={() => {
-                router.push('./')
+                router.push('/new-task-form')
             }}
             style={{
                 top: -40,

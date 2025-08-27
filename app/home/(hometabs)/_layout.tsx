@@ -13,6 +13,7 @@ export default function HomeTabs() {
                     tabBarLabelStyle: {
                         fontSize: 16
                     },
+                    headerShown: false,
                     headerTitleStyle: {
 
                     },

@@ -11,6 +11,7 @@ export default function Layout() {
     return (
         <Stack>
             <Stack.Screen name="(hometabs)" options={{ headerShown: false }} />
+
         </Stack>
     );
 }
