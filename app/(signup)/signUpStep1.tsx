@@ -19,6 +19,7 @@ export default function SignupStep1() {
     //We are passing in the onNext to be managed by the top level component
     type EmailStepData = z.infer<typeof emailStepSchema>;
 
+    //USe form is basically just a hook giving you access to what you need
     const { control, watch, handleSubmit, setError, formState: { isValid } } = useForm<EmailStepData>({
         resolver: zodResolver(emailStepSchema),
         mode: 'onChange'

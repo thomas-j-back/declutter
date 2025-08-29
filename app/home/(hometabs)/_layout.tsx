@@ -22,7 +22,7 @@ export default function HomeTabs() {
                 }}
             />
             <Tabs.Screen
-                name="createTask"
+                name="create-task"
                 options={{
                     tabBarButton: () => <CreateTaskTab />,
                     title: 'New Tasks'
