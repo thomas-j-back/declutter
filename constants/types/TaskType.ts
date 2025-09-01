@@ -15,3 +15,11 @@ export type Task = {
     status: string
 }
 
+export type TaskAction = {
+    id: number,
+    name: string,
+    order: number
+}
+
+
+

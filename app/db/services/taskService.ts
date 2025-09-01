@@ -1,6 +1,6 @@
 import { SQLiteDatabase } from "expo-sqlite";
 import { useAuth } from "@/lib/auth";
-import { Task } from "@/constants/types/TaskType";
+import { Task, TaskAction, TaskLocation } from "@/constants/types/TaskType";
 
 interface TaskParams {
     task_id?: string,
@@ -69,6 +69,28 @@ export default class TaskService {
             this._throwError(e)
         }
         return tasks;
+    }
+
+    async getActions(): Promise<Array<TaskAction>> {
+        let actions: TaskAction[] = [];
+        try {
+            actions = await this.db.getAllAsync<TaskAction>("SELECT  * FROM Action ORDER BY order")
+        } catch(e) {
+            this._throwError(e);
+        }
+        return actions;
+    }
+
+    async getLocations(): Promise<Array<TaskLocation>> {
+        let locations: TaskLocation[] = [];
+        try {
+            locations = await this.db.getAllAsync<TaskLocation>(
+                "SELECT  * FROM TaskLocation ORDER BY order"
+            )
+        } catch(e) {
+            this._throwError(e);
+        }
+        return locations;
     }
 
     _throwError(e) {

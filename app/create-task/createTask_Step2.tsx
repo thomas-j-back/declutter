@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 import { FormTextInput } from '@/components/form/FormTextInput';
 import { useForm, useFormContext } from 'react-hook-form';
 import styles from '@/components/ui/Styles';
+import { useDB } from '../db/DBContext';
 
 export default function CreateTask_Step2() {
 
@@ -12,7 +13,6 @@ export default function CreateTask_Step2() {
 
     return (
         <View style={{ ...styles.paddingmd }}>
-
             <FormTextInput
                 control={control}
                 name="description"

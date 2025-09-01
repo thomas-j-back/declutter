@@ -15,10 +15,10 @@ export default function createTaskLayout() {
         <FormProvider  {...methods}>
             <Stack>
                 <Stack.Screen name="createTask_Step1" options={{
-                    headerTitle: "Task description",
+                    headerTitle: "Task Details",
                 }} />
                 <Stack.Screen name="createTask_Step2" options={{
-                    headerTitle: "When and where?"
+                    headerTitle: "When?"
                 }} />
                 <View style={{ ...styles.paddingmd }}>
                     <Slot />

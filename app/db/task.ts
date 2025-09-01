@@ -19,9 +19,19 @@ export default async function createTaskTable(db: SQLiteDatabase) {
             );
             `);
         await db.execAsync(`
+                CREATE TABLE IF NOT EXISTS Sublocation (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    user_managed INTEGER DEFAULT 0
+                )
+            `)
+         
+        await db.execAsync(`
             CREATE TABLE IF NOT EXISTS Actions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT NOT NULL
+                name TEXT NOT NULL,
+                displayOrder INTEGER,
+                user_managed INTEGER DEFAULT 0
             )`)
 
             /**
@@ -63,6 +73,41 @@ export default async function createTaskTable(db: SQLiteDatabase) {
                     task_id INTEGER NOT NULL,
                     FOREIGN KEY (task_id) REFERENCES Task (id) ON DELETE CASCADE
                 )`)
+
+            /**
+             * Populate actions table
+             * 
+             */
+
+            await db.execAsync(`
+                INSERT INTO Actions (name, displayOrder) 
+                VALUES
+                    ("Clean", 0),
+                    ("Vacuum", 10),
+                    ("Organize", 20),
+                    ("Mop", 60),
+                    ("Dust", 50),
+                    ("Wipe", 30),
+                    ("Wash", 40),
+                    ("Rinse",70),
+                    ("Sanitize", 80),
+                    ("Disinfect", 90),
+                    ("Scrub", 35);
+                `)
+
+                /**
+                 * Populate TaskLocations table
+                 */
+                await db.execAsync(`
+                    INSERT INTO TaskLocation (name) VALUES
+                    ("Bedroom"),
+                    ("Living Room"),
+                    ("Bathroom"),
+                    ("Hallway"),
+                    ("Kitchen"),
+                    ("Shower"),
+                    ("Bath");
+                `)
     } catch(e) {
         console.error(e);
     }
