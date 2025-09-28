@@ -10,10 +10,12 @@ export default async function createTaskTable(db: SQLiteDatabase) {
         /**
      * CREATE TASK LOCATION TABLE
      */
+        await db.runAsync('DROP TABLE IF EXISTS TaskLocation');
+
         await db.execAsync(`
             CREATE TABLE IF NOT EXISTS TaskLocation (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
+                name TEXT UNIQUE NOT NULL,
                 -- either 1 or 0
                 user_managed INTEGER DEFAULT 0
             );
@@ -25,11 +27,11 @@ export default async function createTaskTable(db: SQLiteDatabase) {
                     user_managed INTEGER DEFAULT 0
                 )
             `)
-         
+            await db.runAsync('DROP TABLE IF EXISTS Actions');
         await db.execAsync(`
             CREATE TABLE IF NOT EXISTS Actions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
+                name TEXT UNIQUE NOT NULL,
                 displayOrder INTEGER,
                 user_managed INTEGER DEFAULT 0
             )`)
@@ -78,7 +80,10 @@ export default async function createTaskTable(db: SQLiteDatabase) {
              * Populate actions table
              * 
              */
-
+            await db.execAsync(`
+                DELETE FROM Actions;
+            `)
+          
             await db.execAsync(`
                 INSERT INTO Actions (name, displayOrder) 
                 VALUES
@@ -98,6 +103,9 @@ export default async function createTaskTable(db: SQLiteDatabase) {
                 /**
                  * Populate TaskLocations table
                  */
+                await db.execAsync(`
+                    DELETE FROM TaskLocation;
+                `)
                 await db.execAsync(`
                     INSERT INTO TaskLocation (name) VALUES
                     ("Bedroom"),

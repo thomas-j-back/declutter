@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import { Slot, Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
+
 import { DefaultTheme, PaperProvider } from 'react-native-paper';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Session } from '@supabase/supabase-js';
@@ -10,7 +10,7 @@ import { AuthProvider } from '@/lib/auth';
 import { LightTheme } from '@/components/ui/LightTheme';
 import { DarkTheme } from '@/components/ui/DarkTheme';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { DBProvider } from './db/DBContext'
+import DBProvider from './db/DBContext'
 
 const theme = {
   ...DefaultTheme,

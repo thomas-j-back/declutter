@@ -74,7 +74,7 @@ export default class TaskService {
     async getActions(): Promise<Array<TaskAction>> {
         let actions: TaskAction[] = [];
         try {
-            actions = await this.db.getAllAsync<TaskAction>("SELECT  * FROM Action ORDER BY order")
+            actions = await this.db.getAllAsync<TaskAction>("SELECT  * FROM Actions ORDER BY displayOrder ASC")
         } catch(e) {
             this._throwError(e);
         }
@@ -82,10 +82,11 @@ export default class TaskService {
     }
 
     async getLocations(): Promise<Array<TaskLocation>> {
+        debugger;
         let locations: TaskLocation[] = [];
         try {
             locations = await this.db.getAllAsync<TaskLocation>(
-                "SELECT  * FROM TaskLocation ORDER BY order"
+                "SELECT  * FROM TaskLocation"
             )
         } catch(e) {
             this._throwError(e);

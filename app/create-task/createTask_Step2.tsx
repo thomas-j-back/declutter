@@ -15,13 +15,13 @@ export default function CreateTask_Step2() {
         <View style={{ ...styles.paddingmd }}>
             <FormTextInput
                 control={control}
-                name="description"
-                placeholder='Any additional details?'
+                name="date_time"
+                placeholder='When?'
             />
             <MyButton mode="outlined" disabled={!isValid} onPress={() => {
                 router.push('/create-task/createTask_Step2')
             }}>
-                Next
+                Submit
             </MyButton>
         </View>);
 }

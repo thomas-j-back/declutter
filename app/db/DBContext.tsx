@@ -1,5 +1,5 @@
 import { SQLiteDatabase } from 'expo-sqlite';
-import { useEffect, useState, PropsWithChildren, useContext, createContext } from 'react';
+import { useEffect, useState, PropsWithChildren, useContext, createContext, useRef } from 'react';
 import getDb from './db'
 import TaskService from './services/taskService'
 import createTaskTable from "./task";
@@ -22,12 +22,15 @@ export function useDB() {
 }
 
 
-export function DBProvider({ children }: PropsWithChildren) {
+export default function DBProvider({ children }: PropsWithChildren) {
     const [db, setDb] = useState<SQLiteDatabase | null>(null);
     const [taskService, setTaskService] = useState<TaskService>();
+    const initRef = useRef(false);
 
 
     useEffect(() => {
+        if (initRef.current) return; // prevent second run
+        initRef.current = true;
         (async () => {
             const db = await getDb();
             setDb(db);
