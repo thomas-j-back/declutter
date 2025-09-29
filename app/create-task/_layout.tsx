@@ -1,14 +1,14 @@
 import { Stack, Slot } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
-import { TaskCreateStep1Schema, taskCreateStep1Schema } from "@/validation/taskForm/createTaskSchema";
+import { TaskCreateSchema, taskCreateSchema } from "@/validation/taskForm/createTaskSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { View } from "react-native";
 import styles from "@/components/ui/Styles";
 
 export default function createTaskLayout() {
 
-    const methods = useForm<TaskCreateStep1Schema>({
-        resolver: zodResolver(taskCreateStep1Schema),
+    const methods = useForm<TaskCreateSchema>({
+        resolver: zodResolver(taskCreateSchema),
         mode: 'onChange'
     });
     return (

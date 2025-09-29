@@ -11,7 +11,12 @@ import { TaskLocation, TaskAction } from '@/constants/types/TaskType';
 import DropDown from '@/components/form/DropDown';
 
 export default function createTask_Step1() {
-    const { control, formState: { isValid } } = useFormContext();
+    const { control, formState: { errors }, setValue } = useFormContext();
+    //instead of use isValid, validate just location and action
+    const { watch } = useFormContext();
+    const location = watch('location');
+    const action = watch('action');
+    const isValid = location && action && !errors.location && !errors.action;
 
     const { taskService } = useDB();
     const [locations, setLocations] = useState<TaskLocation[]>([]);
@@ -26,6 +31,19 @@ export default function createTask_Step1() {
         fetchData();
     }, []);
 
+    const toStep2 = () => {
+        // Auto-generate title from action + location
+        const selectedAction = actions.find(a => a.id.toString() === action);
+        const selectedLocation = locations.find(l => l.id.toString() === location);
+
+        if (selectedAction && selectedLocation) {
+            const generatedTitle = `${selectedAction.name} ${selectedLocation.name}`;
+            setValue('title', generatedTitle);
+        }
+
+        router.push('/create-task/createTask_Step2');
+    }
+
     return (
         <View style={{ ...styles.paddingmd }}>
             {// you should be able to select the location and action from the dropdowns
@@ -35,15 +53,22 @@ export default function createTask_Step1() {
                 name="action"
                 options={actions.map(action => ({ label: action.name, value: action.id.toString() }))}
                 control={control}
+                placeholder="What type of task is this?"
+                label="Task Action"
             />
             <DropDown
                 name="location"
                 options={locations.map(location => ({ label: location.name, value: location.id.toString() }))}
                 control={control}
+                placeholder="Where will this be done?"
+                label="Location"
             />
-            <MyButton mode="outlined" disabled={!isValid} onPress={() => {
-                router.push('/create-task/createTask_Step2')
-            }}>
+            <FormTextInput
+                name="description"
+                placeholder='Please feel free to add any more details.'
+                control={control}
+            />
+            <MyButton mode="outlined" disabled={!isValid} onPress={toStep2}>
                 Next
             </MyButton>
         </View>);
