@@ -27,7 +27,6 @@ export default async function createTaskTable(db: SQLiteDatabase) {
                     user_managed INTEGER DEFAULT 0
                 )
             `)
-            await db.runAsync('DROP TABLE IF EXISTS Actions');
         await db.execAsync(`
             CREATE TABLE IF NOT EXISTS Actions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,7 +45,10 @@ export default async function createTaskTable(db: SQLiteDatabase) {
                     task_location INTEGER NOT NULL,
                     description TEXT,
                     action INTEGER,
-                    start_date_time INTEGER,
+                    start_date INTEGER,
+                    start_time INTEGER,
+                    end_date INTEGER,
+                    end_time INTEGER,
                     estimated_minutes INTEGER,
                     status TEXT,
                     completed_on INTEGER,

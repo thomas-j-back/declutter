@@ -32,7 +32,7 @@ export default function DatePicker({
         DateTimePickerAndroid.open({
             value: value ? new Date(value) : new Date(),
             mode: 'date',
-            
+
         })
     }
 

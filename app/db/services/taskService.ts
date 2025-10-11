@@ -8,7 +8,8 @@ interface TaskParams {
     task_location: number,
     description?: string,
     action?: number,
-    start_date_time?: number,
+    start_date?: number,
+    start_time?:number,
     estimated_minutes?: number,
     user_id?: string,
     status?: string
@@ -20,30 +21,32 @@ export default class TaskService {
     }
 
     async insert(params: TaskParams) {
+        debugger;
         try {
             const insertResult = await this.db.runAsync(
-                `INSERT INTO Task (title, task_location, description, action, start_date_time, estimated_minutes, status) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?);`,
+                `INSERT INTO Task (title, task_location, description, action, start_date, start_time, estimated_minutes, status) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
                 [
                     params.title || '', 
                     params.task_location, 
                     params.description || null,
                     params.action || null,
-                    params.start_date_time || null,
+                    params.start_date || null,
+                    params.start_time || null,
                     params.estimated_minutes || null,
                     params.status || 'pending'
                 ]
             );
             
-            const {session} = useAuth();
-            if(session) {
-                const userTaskMapInsert = await this.db.runAsync(
-                    'INSERT INTO UserToTask (user_id, task_id) VALUES (?,?)',
-                    [session.user.id, insertResult.lastInsertRowId]
-                )
-            } else {
-                throw new Error('No session from auth, user must be logged in to interact with db.')
-            }
+            // const {session} = useAuth();
+            // if(session) {
+            //     const userTaskMapInsert = await this.db.runAsync(
+            //         'INSERT INTO UserToTask (user_id, task_id) VALUES (?,?)',
+            //         [session.user.id, insertResult.lastInsertRowId]
+            //     )
+            // } else {
+            //     throw new Error('No session from auth, user must be logged in to interact with db.')
+            // }
             
             return insertResult;
          
@@ -80,7 +83,7 @@ export default class TaskService {
     async getAllPending(): Promise<Array<Task>> {
         let tasks: Task[] = [];
         try {
-            tasks = await this.db.getAllAsync<Task>("SELECT * FROM Task WHERE status = pending;");
+            tasks = await this.db.getAllAsync<Task>("SELECT * FROM Task WHERE status = 'pending';");
         } catch(e) {
             this._throwError(e)
         }

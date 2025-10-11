@@ -6,22 +6,19 @@ import { useDB } from "@/app/db/DBContext";
 import { Task } from '@/constants/types/TaskType';
 export default function TasksScreen() {
 
-    const { taskService } = useDB();
+    const { taskService, ready } = useDB();
     const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
+        if (!ready) return;
+
         async function fetchTasks() {
             const result = await taskService?.getAllPending() || [];
             setTasks(result);
         }
         fetchTasks();
-        // setTasks([{
-        //     id: 454545,
-        //     title: 'This is your task',
-        //     description: 'do this!!!!'
 
-        // }])
-    }, [])
+    }, [ready])
     return (
         <View style={{ ...styles.paddingmd }}>
             <FlatList

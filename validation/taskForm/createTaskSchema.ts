@@ -5,7 +5,8 @@ export const taskCreateSchema = z.object({
     description: z.string().optional(),
     location: z.string().min(1, "Location is required"), // Form stores as string, converted to int in submission
     action: z.string().min(1, "Action is required"), // Form stores as string, converted to int in submission
-    start_date_time: z.number().min(1, "Date and time is required"), // Unix timestamp
+    start_date: z.number().min(1, "Start date is required"), // Unix timestamp
+    start_time: z.number().min(1, "Start time is required."),
     repeat: z.boolean().optional(),
 });
 

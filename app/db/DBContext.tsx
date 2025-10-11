@@ -6,7 +6,8 @@ import createTaskTable from "./task";
 
 interface DbContextType {
     db: SQLiteDatabase | null,
-    taskService: TaskService | undefined
+    taskService: TaskService | undefined,
+    ready: boolean
 };
 
 
@@ -26,6 +27,8 @@ export default function DBProvider({ children }: PropsWithChildren) {
     const [db, setDb] = useState<SQLiteDatabase | null>(null);
     const [taskService, setTaskService] = useState<TaskService>();
     const initRef = useRef(false);
+    //For signaling to loaders db is ready to be queried
+    const [ready, setReady] = useState(false);
 
 
     useEffect(() => {
@@ -37,8 +40,9 @@ export default function DBProvider({ children }: PropsWithChildren) {
             //Create tables
             await createTaskTable(db);
             setTaskService(new TaskService(db));
+            setReady(true);
 
         })();
     })
-    return <DBContext.Provider value={{ db, taskService }}>{children}</DBContext.Provider>
+    return <DBContext.Provider value={{ db, taskService, ready }}>{children}</DBContext.Provider>
 }
