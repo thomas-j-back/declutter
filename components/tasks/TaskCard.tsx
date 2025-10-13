@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { Card } from 'react-native-paper';
 import { Task } from '@/constants/types/TaskType';
 import { formatUnixTimestamp, isPastTimestamp, isTodayTimestamp } from '@/utils/dateUtils';
+import MyButton from '../Button';
+import { useDB } from '@/app/db/DBContext';
 
 interface TaskCardProps {
     task: Task;
+    onDelete: () => {}
 }
 
-export default function TaskCard({ task }: TaskCardProps) {
-    const isOverdue = isPastTimestamp(task.start_date_time);
-    const isDueToday = isTodayTimestamp(task.start_date_time);
+export default function TaskCard({ task, onDelete }: TaskCardProps) {
+    const isOverdue = isPastTimestamp(task.start_date);
+    const isDueToday = isTodayTimestamp(task.start_date);
+
+    const { taskService } = useDB();
+
+    useEffect(() => {
+        const locationName = taskService?.getLocationById(task.task_location.id);
+    }, []);
+
+    const deleteTask = async () => {
+        const result = await taskService?.deleteTask(task.id);
+        if (result) {
+            onDelete();
+        }
+
+    }
 
     return (
         <Card style={{ margin: 8 }}>
@@ -27,8 +44,9 @@ export default function TaskCard({ task }: TaskCardProps) {
 
                 <View style={{ marginTop: 8 }}>
                     <Text style={{ fontSize: 12, color: '#888' }}>
-                        Due: {formatUnixTimestamp(task.start_date_time)}
+                        Start: {formatUnixTimestamp(task.start_date)}
                     </Text>
+
 
                     {isOverdue && (
                         <Text style={{ fontSize: 12, color: 'red', fontWeight: 'bold' }}>
@@ -46,6 +64,11 @@ export default function TaskCard({ task }: TaskCardProps) {
                 <Text style={{ fontSize: 12, color: '#888', marginTop: 4 }}>
                     Location: {task.task_location.name}
                 </Text>
+                <View>
+                    <MyButton mode="contained" onPress={deleteTask}>
+                        Delete
+                    </MyButton>
+                </View>
             </Card.Content>
         </Card>
     );

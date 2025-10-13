@@ -10,7 +10,8 @@ export type Task = {
     task_location: TaskLocation,
     description: string,
     action: number,
-    start_date_time: number,
+    start_time: number,
+    start_date: number, 
     estimated_time: number,
     status: string
 }

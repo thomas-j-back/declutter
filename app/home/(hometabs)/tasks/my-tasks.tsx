@@ -4,21 +4,26 @@ import { Card } from 'react-native-paper'
 import styles from '../../../../components/ui/Styles'
 import { useDB } from "@/app/db/DBContext";
 import { Task } from '@/constants/types/TaskType';
+import TaskCard from '@/components/tasks/TaskCard'
 export default function TasksScreen() {
 
     const { taskService, ready } = useDB();
     const [tasks, setTasks] = useState<Task[]>([]);
 
+    async function fetchTasks() {
+        const result = await taskService?.getAllPending() || [];
+        setTasks(result);
+    }
+
     useEffect(() => {
         if (!ready) return;
-
-        async function fetchTasks() {
-            const result = await taskService?.getAllPending() || [];
-            setTasks(result);
-        }
         fetchTasks();
 
     }, [ready])
+
+    const onDelete = async () => {
+        fetchTasks();
+    }
     return (
         <View style={{ ...styles.paddingmd }}>
             <FlatList
@@ -27,12 +32,7 @@ export default function TasksScreen() {
                 contentContainerStyle={{ ...styles.paddingsm }}
                 renderItem={({ item }) => {
                     return (
-                        <Card style={{ ...styles.paddingsm, ...styles.marginBottommd }}>
-                            <Card.Title title={item.title} />
-                            <Card.Content>
-                                <Text>{item.description}</Text>
-                            </Card.Content>
-                        </Card>
+                        <TaskCard task={item} onDelete={onDelete} />
                     )
                 }}
             ></FlatList>

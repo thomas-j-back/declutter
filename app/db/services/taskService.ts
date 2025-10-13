@@ -21,7 +21,6 @@ export default class TaskService {
     }
 
     async insert(params: TaskParams) {
-        debugger;
         try {
             const insertResult = await this.db.runAsync(
                 `INSERT INTO Task (title, task_location, description, action, start_date, start_time, estimated_minutes, status) 
@@ -100,8 +99,27 @@ export default class TaskService {
         return actions;
     }
 
+    async deleteTask(taskId: number) {
+        try {
+            const deleteResult =  await this.db.runAsync(`DELETE FROM Task WHERE id = ${taskId};`);
+            return deleteResult;
+        } catch(e: any) {
+            throw new Error(e);
+        }
+    }
+
+    async getLocationById(locationId: number): Promise<TaskLocation | null> {
+        try {
+            const getRes = await this.db.getFirstAsync<TaskLocation>(
+                `SELECT * FROM TaskLocation where id = ${locationId}`
+            )
+            return getRes;
+        } catch(e: any) {
+            throw new Error(e);
+        }
+    }
+
     async getLocations(): Promise<Array<TaskLocation>> {
-        debugger;
         let locations: TaskLocation[] = [];
         try {
             locations = await this.db.getAllAsync<TaskLocation>(
